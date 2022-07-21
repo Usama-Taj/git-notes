@@ -1,0 +1,38 @@
+footer .pagination-controls .pagination-next button {
+  background-color: #5acba1;
+  border-radius: 5px;
+  height: 45%;
+  outline: none;
+  border: 1px solid #224f3f;
+  color: #fff;
+  width: 100px;
+  height: 30px;
+  cursor: pointer;
+}
+footer .pagination-controls .pagination-next button:active {
+  border-color: 5px solid #000;
+}
+.pagination-controls .pagination-info {
+  font-size: 0.7rem;
+}
+
+.table-grid-controls {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 20px;
+  grid-template-columns: 1fr 1fr;
+  display: grid;
+}
+.table-grid-controls .table-grid-item {
+  grid-column-start: 3;
+}
+.table-grid-controls i {
+  cursor: pointer;
+  color: rgba(117, 113, 113, 0.5);
+}
+.vl {
+  border-left: 2px solid #6c757d;
+  height: 100%;
+  margin: 0 7px 0 7px;
+}

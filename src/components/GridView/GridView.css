@@ -1,0 +1,55 @@
+.grid-content {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  column-gap: 55px;
+  row-gap: 20px;
+}
+.card {
+  display: grid;
+  row-gap: 10px;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid rgb(107, 102, 102, 0.5);
+  border-radius: 15px;
+  box-shadow: -0px 0px 8px #d9d9d9, 0px -0px 8px #e7e7e7;
+}
+.card .card-content {
+  font-size: 0.6rem;
+  font-family: "Courier New", Courier, monospace;
+}
+.card .card-content table {
+  border-collapse: collapse;
+}
+.card .card-content table tbody tr td:nth-child(1) {
+  font-weight: bold;
+}
+.card .card-content table tr:nth-child(even) {
+  background-color: rgba(107, 102, 102, 0.1);
+}
+.card .card-content table tr:nth-child(odd) {
+  background-color: #fff;
+}
+.card .card-footer {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  align-items: center;
+}
+.card .card-footer img {
+  border-radius: 50%;
+  width: 40px;
+}
+.card .card-footer .heading .info {
+  font-size: 0.7rem;
+  color: #58a6ff;
+}
+.card .card-footer .heading .history {
+  font-size: 0.5rem;
+  color: #6b6666;
+}
+
+hr {
+  color: #6b6666;
+}

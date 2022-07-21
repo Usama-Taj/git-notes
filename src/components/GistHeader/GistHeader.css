@@ -1,0 +1,40 @@
+.gist_item .gist_header {
+  display: grid;
+}
+.gist_header .img {
+  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 10fr 5fr;
+}
+
+.gist_header .img img {
+  border-radius: 50%;
+  width: 90%;
+}
+
+.gist_header .img .heading .info {
+  font-size: 0.7rem;
+  color: #58a6ff;
+}
+.gist_header .img .heading .history {
+  font-size: 0.5rem;
+  color: #6b6666;
+}
+.gist_header .controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  column-gap: 5px;
+}
+.gist_header .controls span {
+  color: #58a6ff;
+  cursor: pointer;
+  font-size: 0.7rem;
+}
+.gist_header .controls i {
+  color: #58a6ff;
+  cursor: pointer;
+  font-size: 0.7rem;
+}
+.gist_header .controls input[type="text"] {
+  width: 40px;
+}

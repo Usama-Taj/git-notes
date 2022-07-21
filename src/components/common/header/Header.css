@@ -1,0 +1,53 @@
+header {
+  position: fixed;
+  z-index: 10;
+  width: 100%;
+}
+.nav-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: #5acba1;
+}
+.nav-bar .logo {
+  width: 70%;
+}
+.nav-bar .controls {
+  width: 30%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+}
+.nav-bar .controls * {
+  border-radius: 5px;
+  color: #fff;
+}
+.nav-bar .controls input[type="text"] {
+  border: 1px solid #fff;
+  height: 40%;
+  width: 70%;
+  background-color: #5acba1;
+  padding: 0 10px 0 10px;
+}
+
+.nav-bar .controls input[type="text"]::placeholder {
+  color: #fff;
+}
+.nav-bar .controls input[type="text"]:focus {
+  outline: none;
+  border: 2px solid #fff;
+}
+
+.nav-bar .controls button {
+  background-color: #fff;
+  height: 45%;
+  outline: none;
+  border-color: #fff;
+  color: #5acba1;
+  width: 20%;
+  cursor: pointer;
+}
+.nav-bar .controls button:active {
+  border-color: 2px solid #fff;
+}
