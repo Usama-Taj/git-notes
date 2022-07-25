@@ -1,15 +1,20 @@
-const GistListFooter = () => {
-  return (
-    <footer>
-      <div className="d-flex justify-content-around pagination-controls">
-        <div></div>
-        <div className="pagination-next">
-          <button>Next</button>
-        </div>
-        <div className="pagination-info">Page 1 of 14</div>
-      </div>
-    </footer>
-  );
-};
+import React, { Component } from "react";
+import { PaginationControls, PageInfo } from "./GistListFooter.styles";
+class GistListFooter extends Component {
+  render() {
+    return (
+      <footer>
+        <PaginationControls>
+          <div></div>
+          <div>
+            <button>Prev</button>
+            <button>Next</button>
+          </div>
+          <PageInfo>Page 1 of 14</PageInfo>
+        </PaginationControls>
+      </footer>
+    );
+  }
+}
 
 export default GistListFooter;

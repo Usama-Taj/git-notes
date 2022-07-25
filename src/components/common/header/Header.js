@@ -1,29 +1,36 @@
-const Header = () => {
-  return (
-    <>
-      <header>
-        <nav className="nav-bar">
-          <a href="#">
-            <img
-              src="assets/images/logo.svg"
-              alt="Emumba Logo"
-              className="logo"
-            />
-          </a>
-          <div className="controls">
-            <input
-              type="text"
-              name="search"
-              id="search"
-              placeholder="Search Name..."
-            />
-            <button>Login</button>
-          </div>
-        </nav>
-      </header>
-      <div className="under-header"></div>
-    </>
-  );
-};
+import React, { Component } from "react";
+import logo from "assets/logos/logo.svg";
+import {
+  HeaderArea,
+  NavBar,
+  NavBarLogo,
+  NavBarControls,
+} from "./Header.styles";
+
+class Header extends Component {
+  render() {
+    return (
+      <>
+        <HeaderArea>
+          <NavBar>
+            <a href="#">
+              <NavBarLogo src={logo} alt="Emumba Logo" />
+            </a>
+            <NavBarControls>
+              <input
+                type="text"
+                name="search"
+                id="search"
+                placeholder="Search Name..."
+              />
+              <button>Login</button>
+            </NavBarControls>
+          </NavBar>
+        </HeaderArea>
+        <div className="under-header"></div>
+      </>
+    );
+  }
+}
 
 export default Header;

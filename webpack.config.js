@@ -1,5 +1,5 @@
 const path = require("path");
-
+const Dotenv = require("dotenv-webpack");
 /*We are basically telling webpack to take index.js from entry. Then check for all file extensions in resolve. 
 After that apply all the rules in module.rules and produce the output and place it in main.js in the public folder.*/
 
@@ -22,6 +22,7 @@ module.exports = {
      * the name of the output file
      */
     filename: "bundle.js",
+    publicPath: "/",
   },
   /** "target"
    * setting "node" as target app (server side), and setting it as "web" is
@@ -29,6 +30,7 @@ module.exports = {
    */
   target: "web",
   devServer: {
+    historyApiFallback: true,
     /** "port"
      * port of dev server
      */
@@ -59,6 +61,13 @@ module.exports = {
      * This is what enables users to leave off the extension when importing
      */
     extensions: [".js", ".jsx", ".json"],
+    alias: {
+      pages: path.resolve(__dirname, "src/pages"),
+      components: path.resolve(__dirname, "src/components"),
+      assets: path.resolve(__dirname, "src/assets"),
+      api: path.resolve(__dirname, "src/api"),
+      utilities: path.resolve(__dirname, "src/utilities"),
+    },
   },
   module: {
     /** "rules"
@@ -67,6 +76,7 @@ module.exports = {
      * add it to the bundle. And in this process, kindly make sure to exclude node_modules folder from
      * being searched"
      */
+
     rules: [
       {
         test: /\.(js|jsx)$/, //kind of file extension this rule should look for and apply in test
@@ -74,9 +84,21 @@ module.exports = {
         use: ["babel-loader"], //loader which we are going to use
       },
       {
-        test: /\.(scss|css)$/,
-        use: ["style-loader", "css-loader", "sass-loader"],
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        use: [
+          {
+            loader: "file-loader",
+          },
+        ],
       },
     ],
   },
+  /**
+   * "Plugins"
+   */
+  plugins: [new Dotenv({ path: "./.env", safe: true })],
 };

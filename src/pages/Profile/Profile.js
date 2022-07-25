@@ -1,27 +1,17 @@
-import ProfileGistItem from "components/ProfileGistItem/ProfileGistItem";
+import React, { Component } from "react";
+import ProfileGists from "components/ProfileGists/ProfileGists";
+import ProfileContent from "components/ProfileContent/ProfileContent";
+import { ProfileView } from "./Profile.styles";
 
-const ProfileView = () => {
-  return (
-    <div className="profile">
-      <div>
-        <div className="profile_content">
-          <div className="img">
-            <img
-              src="https://www.w3schools.com/howto/img_avatar.png"
-              alt="user"
-            />
-          </div>
-          <div className="name">Some Name</div>
-          <div className="controls">
-            <button>View GitHub Profile</button>
-          </div>
-        </div>
-      </div>
-      <div className="profile_gists">
-        <ProfileGistItem />
-      </div>
-    </div>
-  );
-};
+class Profile extends Component {
+  render() {
+    return (
+      <ProfileView>
+        <ProfileContent />
+        <ProfileGists />
+      </ProfileView>
+    );
+  }
+}
 
-export default ProfileView;
+export default Profile;

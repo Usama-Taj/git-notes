@@ -1,14 +1,16 @@
 import GridItem from "components/GridItem/GridItem";
-
-const GridView = () => {
-  return (
-    <div className="grid-content">
-      <GridItem />
-      <GridItem />
-      <GridItem />
-      <GridItem />
-    </div>
-  );
-};
+import React, { Component } from "react";
+import { Content } from "./GridView.styles";
+class GridView extends Component {
+  renderGists = (gists) => {
+    console.log(gists);
+    if (Array.isArray(gists))
+      return gists.map((item, i) => <GridItem key={i} gist={item} />);
+  };
+  render() {
+    const { gists } = this.props;
+    return <Content>{this.renderGists(gists)}</Content>;
+  }
+}
 
 export default GridView;

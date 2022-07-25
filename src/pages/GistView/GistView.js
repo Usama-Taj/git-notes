@@ -1,11 +1,17 @@
+import React, { Component } from "react";
 import GistContent from "components/GistContent/GistContent";
+import GistHeader from "components/GistHeader/GistHeader";
+import { Gist } from "./GistView.styles";
 
-const GistView = () => {
-  return (
-    <div className="gist_item">
-      <GistContent />
-    </div>
-  );
-};
+class GistView extends Component {
+  render() {
+    return (
+      <Gist>
+        <GistHeader />
+        <GistContent />
+      </Gist>
+    );
+  }
+}
 
 export default GistView;

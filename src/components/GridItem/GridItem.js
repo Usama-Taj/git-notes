@@ -1,89 +1,72 @@
-const GridItem = () => {
-  return (
-    <div className="card">
-      <div className="card-content">
-        <table>
-          <tbody>
-            <tr>
-              <td>1</td>
-              <td>{`#include &lt;iostream&gt;`}</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td>{`using namespace std;`}</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>{`int main() {`}</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>{`int i, n; bool is_prime = true;`}</td>
-            </tr>
-            <tr>
-              <td>5</td>
-              <td>
-                {` cout &lt;$lt &quot;Enter a positive integer: &quot;; cin
-            &gt;&gt n;`}
-              </td>
-            </tr>
-            <tr>
-              <td>6</td>
-              <td>
-                {` // 0 and 1 are not prime numbers if (n == 0 || n == 1) {
-            is_prime = false; }`}
-              </td>
-            </tr>
-            <tr>
-              <td>7</td>
-              <td>
-                {`   // loop to check if n is prime for (i = 2; i <= n/2; ++i) {
-            if (n % i == 0) { is_prime = false; break; } }`}
-              </td>
-            </tr>
-            <tr>
-              <td>8</td>
-              <td>
-                {`   if (is_prime) cout &lt;$lt n &lt;$lt &quot; is a prime
-            number&quot;; else cout &lt;$lt n &lt;$lt &quot; is not a
-            prime number&quot;;`}
-              </td>
-            </tr>
-            <tr>
-              <td>9</td>
-              <td>{`return 0; }`}</td>
-            </tr>
-            <tr>
-              <td>10</td>
-              <td>{`// Quit`}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div>
-        <hr />
-      </div>
-      <div className="card-footer ">
+import React, { Component } from "react";
+import avatar_one from "assets/images/img_avatar.png";
+import {
+  Card,
+  CardContent,
+  CardInfo,
+  CardFooter,
+  History,
+  UserImage,
+} from "./GridItem.styles";
+import GridFileView from "components/GridFileView/GridFileView";
+
+class GridItem extends Component {
+  getValidData = (data) => {
+    const extention = data?.match(/\.\w*$/) ?? "";
+    const filename = data?.replace(/\.\w*$/, "");
+    const new_filename =
+      filename?.length > 20 ? filename?.substring(0, 20) : filename;
+    return `${new_filename}${extention}`;
+  };
+
+  getTimeCreated = (date) => {
+    if (date) {
+      const today = new Date();
+      const created_date = new Date(date);
+      const days_diff = today.getDay() - created_date.getDay();
+      const month_diff = today.getMonth() - created_date.getMonth();
+      const year_diff = today.getFullYear() - created_date.getFullYear();
+    }
+  };
+
+  render() {
+    const {
+      checked,
+      gist: {
+        owner: { login: username, avatar_url: avatar },
+        files,
+        created_at,
+        description,
+      },
+    } = this.props;
+
+    return (
+      <Card>
+        <CardContent>
+          <GridFileView url={files[Object.keys(files)[0]].raw_url} />
+        </CardContent>
         <div>
-          <img
-            src="https://www.w3schools.com/howto/img_avatar.png"
-            alt="user"
-          />
+          <hr />
         </div>
-        <div>
-          <div className="heading">
-            <div className="info">
-              <span>Developer</span>&nbsp;/&nbsp;
-              <span>
-                <b>file_name.cpp</b>
-              </span>
-            </div>
-            <div className="history">Created 7hrs Ago</div>
+        <CardFooter>
+          <div>
+            <UserImage src={avatar_one} alt="user" />
           </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+          <div>
+            <div>
+              <CardInfo>
+                <span>{username}</span> /{" "}
+                <span>
+                  <b>{this.getValidData(Object.keys(files)[0])}</b>
+                </span>
+              </CardInfo>
+              <History>Created {this.getTimeCreated(created_at)}</History>
+            </div>
+          </div>
+        </CardFooter>
+      </Card>
+    );
+  }
+}
 
 export default GridItem;
