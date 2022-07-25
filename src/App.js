@@ -6,22 +6,15 @@ import GistList from "pages/GistList/GistList";
 import GistView from "pages/GistView/GistView";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Profile from "pages/Profile/Profile";
+import MainLayout from "layouts/MainLayout";
+import AppRoutes from "routes/AppRoutes";
 
 class App extends Component {
   render() {
     return (
-      <Router>
-        <Header />
-        <Main>
-          <Routes>
-            <Route path="/" element={<GistList />} />
-            <Route path="/gist-list" element={<GistList />} />
-            <Route path="/gist-view" element={<GistView />} />
-            <Route path="/add-gist" element={<AddGist />} />
-            <Route path="/profile" element={<Profile />} />
-          </Routes>
-        </Main>
-      </Router>
+      <MainLayout>
+        <AppRoutes />
+      </MainLayout>
     );
   }
 }

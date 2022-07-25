@@ -67,6 +67,8 @@ module.exports = {
       assets: path.resolve(__dirname, "src/assets"),
       api: path.resolve(__dirname, "src/api"),
       utilities: path.resolve(__dirname, "src/utilities"),
+      layouts: path.resolve(__dirname, "src/layouts"),
+      routes: path.resolve(__dirname, "src/routes"),
     },
   },
   module: {
