@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { Content } from "./GridView.styles";
 class GridView extends Component {
   renderGists = (gists) => {
-    console.log(gists);
     if (Array.isArray(gists))
       return gists.map((item, i) => <GridItem key={i} gist={item} />);
   };

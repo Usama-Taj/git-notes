@@ -27,11 +27,20 @@ export const GistHistory = styled.div`
 export const GistHeaderControls = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-  column-gap: 5px;
-  & span {
+  column-gap: 20px;
+  & div {
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  & label {
     color: #58a6ff;
     cursor: pointer;
-    font-size: 0.7rem;
+    font-size: 0.6rem;
+    user-select: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
   }
   & i {
     color: #58a6ff;

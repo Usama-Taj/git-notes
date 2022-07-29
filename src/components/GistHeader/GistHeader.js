@@ -7,47 +7,73 @@ import {
   GistHistory,
   GistHeaderControls,
 } from "./GistHeader.styles";
+import { connect } from "react-redux";
+import { starOneGist } from "api/gist.service";
 
 class GistHeader extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { starred: false };
+  }
+  starGist = () => {
+    const { gist_id } = this.props;
+    this.setState({ starred: !this.state.starred });
+    starOneGist(gist_id).then((res) => console.log(res));
+  };
   render() {
+    const { avatar, created, username, filename, logged_in, forks } =
+      this.props;
+    const { starred } = this.state;
     return (
       <Header>
         <UserImage>
-          <img src={avatar_one} alt="user" />
+          <img src={avatar} alt="user" />
           <div>
             <GistInfo>
-              <span>Developer</span>&nbsp;/&nbsp;
+              <span>{username}</span>&nbsp;/&nbsp;
               <span>
-                <b>file_name.cpp</b>
+                <b>{filename}</b>
               </span>
             </GistInfo>
-            <GistHistory>Created 7hrs Ago</GistHistory>
+            <GistHistory>Created {created} Ago</GistHistory>
           </div>
-          <GistHeaderControls>
-            <div>
-              <i className="fa-regular fa-pen-to-square"></i> <span>Edit</span>
-            </div>
-            <div>
-              <i className="fa-regular fa-trash-can"></i> <span>Delete</span>
-            </div>
-            <div>
-              <i className="fa-regular fa-star"></i> <span>Star</span>
-            </div>
-            <div>
-              <input type="text" name="" id="" />
-            </div>
-            <div>
-              <i className="fa-solid fa-code-branch"></i>
-              <span>Fork</span>
-            </div>
-            <div>
-              <input type="text" name="" id="" />
-            </div>
-          </GistHeaderControls>
+          {logged_in && (
+            <GistHeaderControls>
+              <div id="edit">
+                <i className="fa-regular fa-pen-to-square"></i>
+                <label>Edit</label>
+              </div>
+              <div id="delete">
+                <i className="fa-regular fa-trash-can"></i>{" "}
+                <label>Delete</label>
+              </div>
+              <div id="star" onClick={this.starGist}>
+                <i
+                  className={`fa-${starred ? "solid" : "regular"} fa-star`}
+                ></i>
+                <label>Star</label>
+              </div>
+              <div id="star-info">
+                <input type="text" name="" id="" value="0" readOnly />
+              </div>
+              <div id="fork">
+                <i className="fa-solid fa-code-branch"></i>
+                <label>Fork</label>
+              </div>
+              <div id="fork-info">
+                <input type="text" name="" id="" value={forks} readOnly />
+              </div>
+            </GistHeaderControls>
+          )}
         </UserImage>
       </Header>
     );
   }
 }
-
-export default GistHeader;
+const mapStateToProps = (state) => {
+  const {
+    gists: { logged_in },
+  } = state;
+  return { logged_in };
+};
+export default connect(mapStateToProps, null)(GistHeader);

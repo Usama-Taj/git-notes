@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import avatar_one from "assets/images/img_avatar.png";
+import { connect } from "react-redux";
 import {
   Card,
   CardContent,
@@ -9,8 +9,16 @@ import {
   UserImage,
 } from "./GridItem.styles";
 import GridFileView from "components/GridFileView/GridFileView";
+import { withRouter } from "hoc/withRouter";
+import { setSelectedGist } from "stateManagement/gists/actions";
+import { getTimeCreated } from "utilities/utilityFunctions";
+import { getGistFile } from "api/gist.service";
 
 class GridItem extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { fileContent: [] };
+  }
   getValidData = (data) => {
     const extention = data?.match(/\.\w*$/) ?? "";
     const filename = data?.replace(/\.\w*$/, "");
@@ -19,38 +27,40 @@ class GridItem extends Component {
     return `${new_filename}${extention}`;
   };
 
-  getTimeCreated = (date) => {
-    if (date) {
-      const today = new Date();
-      const created_date = new Date(date);
-      const days_diff = today.getDay() - created_date.getDay();
-      const month_diff = today.getMonth() - created_date.getMonth();
-      const year_diff = today.getFullYear() - created_date.getFullYear();
-    }
-  };
-
+  componentDidMount() {
+    const { files } = this.props.gist;
+    getGistFile(files[Object.keys(files)[0]].raw_url).then((res) =>
+      this.setState({ fileContent: res.split("\n") })
+    );
+  }
   render() {
     const {
       checked,
+      gist,
       gist: {
+        id,
         owner: { login: username, avatar_url: avatar },
         files,
         created_at,
         description,
       },
+      router,
+      selectGist,
     } = this.props;
-
+    const { fileContent } = this.state;
     return (
-      <Card>
-        <CardContent>
-          <GridFileView url={files[Object.keys(files)[0]].raw_url} />
-        </CardContent>
+      <Card
+        onClick={(e) => {
+          router.navigate(`gist-view/${id}`);
+        }}
+      >
+        <CardContent>{<GridFileView fileContent={fileContent} />}</CardContent>
         <div>
           <hr />
         </div>
         <CardFooter>
           <div>
-            <UserImage src={avatar_one} alt="user" />
+            <UserImage src={avatar} alt="user" />
           </div>
           <div>
             <div>
@@ -60,7 +70,7 @@ class GridItem extends Component {
                   <b>{this.getValidData(Object.keys(files)[0])}</b>
                 </span>
               </CardInfo>
-              <History>Created {this.getTimeCreated(created_at)}</History>
+              <History>Created {getTimeCreated(created_at)} Ago</History>
             </div>
           </div>
         </CardFooter>
@@ -69,4 +79,4 @@ class GridItem extends Component {
   }
 }
 
-export default GridItem;
+export default withRouter(GridItem);

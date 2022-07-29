@@ -21,6 +21,9 @@ export const CardContent = styled.div`
 export const Table = styled.table`
   border-collapse: collapse;
   width: 100%;
+  & td {
+    padding: 2px 20px;
+  }
   & tr:nth-child(even) {
     background-color: rgba(183, 182, 182, 0.1);
   }

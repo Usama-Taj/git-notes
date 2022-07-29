@@ -1,19 +1,28 @@
+import React, { Component } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import AddGist from "pages/AddGist/AddGist";
 import GistList from "pages/GistList/GistList";
 import GistView from "pages/GistView/GistView";
 import Profile from "pages/Profile/Profile";
-import React, { Component } from "react";
-import { Routes, Route } from "react-router-dom";
+import GistErrorBoundaries from "error-boundaries/GistErrorBoundaries";
+import Login from "components/Login/Login";
 
 class AppRoutes extends Component {
   render() {
     return (
       <Routes>
         <Route path="/" element={<GistList />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/gist-list" element={<GistList />} />
-        <Route path="/gist-view" element={<GistView />} />
+
+        <Route path="gist-view">
+          <Route path=":gist_id" element={<GistView />} />
+        </Route>
         <Route path="/add-gist" element={<AddGist />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile">
+          <Route path=":username" element={<Profile />}></Route>
+        </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     );
   }

@@ -9,6 +9,10 @@ import { getTimeFromDate, getvalidDateDMMMY } from "utilities/utilityFunctions";
 class TableRow extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      logged_in:
+        JSON.parse(localStorage.getItem("gist_app"))?.logged_in || false,
+    };
   }
 
   getValidData = (data) => {
@@ -29,6 +33,7 @@ class TableRow extends Component {
         description,
       },
     } = this.props;
+    const { logged_in } = this.state;
     return (
       <tr>
         <TableCell>
@@ -44,16 +49,18 @@ class TableRow extends Component {
         <TableCell>{getTimeFromDate(created_at)}</TableCell>
         <TableCell>{this.getValidData(description)}</TableCell>
         <TableCell>{this.getValidData(Object.keys(files)[0])}</TableCell>
-        <ColumnControls>
-          <div className="d-flex justify-content-around">
-            <div>
-              <i className="fa-regular fa-star"></i>
+        {logged_in && (
+          <ColumnControls>
+            <div className="d-flex justify-content-around">
+              <div>
+                <i className="fa-regular fa-star"></i>
+              </div>
+              <div>
+                <i className="fa-solid fa-code-branch"></i>
+              </div>
             </div>
-            <div>
-              <i className="fa-solid fa-code-branch"></i>
-            </div>
-          </div>
-        </ColumnControls>
+          </ColumnControls>
+        )}
       </tr>
     );
   }

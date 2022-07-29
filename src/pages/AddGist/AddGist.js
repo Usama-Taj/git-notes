@@ -1,3 +1,5 @@
+import { withAuth } from "hoc/withAuth";
+import { withRouter } from "hoc/withRouter";
 import React, { Component } from "react";
 import { AddGistForm } from "./AddGist.styles";
 class AddGist extends Component {
@@ -30,4 +32,4 @@ class AddGist extends Component {
   }
 }
 
-export default AddGist;
+export default withRouter(withAuth(AddGist));

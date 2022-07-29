@@ -1,5 +1,6 @@
 const path = require("path");
 const Dotenv = require("dotenv-webpack");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 /*We are basically telling webpack to take index.js from entry. Then check for all file extensions in resolve. 
 After that apply all the rules in module.rules and produce the output and place it in main.js in the public folder.*/
 
@@ -34,11 +35,12 @@ module.exports = {
     /** "port"
      * port of dev server
      */
+    host: "localhost",
     port: "9500",
     /** "static"
      * This property tells Webpack what static file it should serve
      */
-    static: ["./public"],
+    static: path.resolve(__dirname, "public"),
     /** "open"
      * opens the browser after server is successfully started
      */
@@ -53,6 +55,7 @@ module.exports = {
      * disable live reload on the browser. "hot" must be set to false for this to work
      */
     liveReload: true,
+    compress: true,
   },
   resolve: {
     /** "extensions"
@@ -69,6 +72,10 @@ module.exports = {
       utilities: path.resolve(__dirname, "src/utilities"),
       layouts: path.resolve(__dirname, "src/layouts"),
       routes: path.resolve(__dirname, "src/routes"),
+      hoc: path.resolve(__dirname, "src/hoc"),
+      stateManagement: path.resolve(__dirname, "src/stateManagement"),
+      "shared-styles": path.resolve(__dirname, "src/shared-styles"),
+      "error-boundaries": path.resolve(__dirname, "src/error-boundaries"),
     },
   },
   module: {
@@ -102,5 +109,13 @@ module.exports = {
   /**
    * "Plugins"
    */
-  plugins: [new Dotenv({ path: "./.env", safe: true })],
+  plugins: [
+    new Dotenv({ path: "./.env", safe: true }),
+    new HtmlWebpackPlugin({
+      title: "Index HTML File Loader",
+      hash: true,
+      filename: "index.html",
+      template: "public/index.html",
+    }),
+  ],
 };
