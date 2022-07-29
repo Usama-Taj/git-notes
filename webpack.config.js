@@ -73,7 +73,7 @@ module.exports = {
       layouts: path.resolve(__dirname, "src/layouts"),
       routes: path.resolve(__dirname, "src/routes"),
       hoc: path.resolve(__dirname, "src/hoc"),
-      stateManagement: path.resolve(__dirname, "src/stateManagement"),
+      "redux-state": path.resolve(__dirname, "src/redux-state"),
       "shared-styles": path.resolve(__dirname, "src/shared-styles"),
       "error-boundaries": path.resolve(__dirname, "src/error-boundaries"),
     },

@@ -10,7 +10,7 @@ import {
 } from "./GridItem.styles";
 import GridFileView from "components/GridFileView/GridFileView";
 import { withRouter } from "hoc/withRouter";
-import { setSelectedGist } from "stateManagement/gists/actions";
+import { setSelectedGist } from "redux-state/gists/actions";
 import { getTimeCreated } from "utilities/utilityFunctions";
 import { getGistFile } from "api/gist.service";
 

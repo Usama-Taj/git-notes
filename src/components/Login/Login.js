@@ -7,7 +7,7 @@ import {
   GridTitle,
   ShadowGridItem,
 } from "shared-styles/Grid.styles";
-import { setLoggedInState } from "stateManagement/gists/actions";
+import { setLoggedInState } from "redux-state/gists/actions";
 import { TextField } from "./Login.styles";
 
 class Login extends Component {

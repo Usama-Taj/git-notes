@@ -14,7 +14,7 @@ import {
 import { withRouter } from "hoc/withRouter";
 import { getGistsByUser } from "api/gist.service";
 import { connect } from "react-redux";
-import { setLoggedInState } from "stateManagement/gists/actions";
+import { setLoggedInState } from "redux-state/gists/actions";
 
 class Header extends Component {
   constructor(props) {

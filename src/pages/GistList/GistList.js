@@ -6,8 +6,8 @@ import TableView from "components/TableView/TableView";
 import GridView from "components/GridView/GridView";
 import { StyledGistList } from "./GistList.styles";
 import { getPublicGists } from "api/gist.service";
-import { GET_GIST_LIST } from "stateManagement/actionTypes";
-import { fetchGistList } from "stateManagement/gists";
+import { GET_GIST_LIST } from "redux-state/actionTypes";
+import { fetchGistList } from "redux-state/gists";
 import { Route } from "react-router-dom";
 
 class GistList extends Component {

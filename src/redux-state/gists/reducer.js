@@ -3,7 +3,7 @@ import {
   SELECT_GIST,
   SET_LOGIN_STATE,
   SET_PAGE_NUMBER,
-} from "stateManagement/actionTypes";
+} from "redux-state/actionTypes";
 
 const initial_state = {
   gists_list: [],

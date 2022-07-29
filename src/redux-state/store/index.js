@@ -1,6 +1,6 @@
 import { applyMiddleware, combineReducers, createStore, compose } from "redux";
 import thunk from "redux-thunk";
-import gists from "stateManagement/gists/reducer";
+import gists from "redux-state/gists/reducer";
 const reducers = combineReducers({ gists });
 const composeEnhancers =
   typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

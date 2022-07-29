@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchGistList } from "stateManagement/gists";
+import { fetchGistList } from "redux-state/gists";
 import { PaginationControls, PageInfo } from "./GistListFooter.styles";
 class GistListFooter extends Component {
   moveBack = () => {
