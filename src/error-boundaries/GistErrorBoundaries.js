@@ -6,6 +6,11 @@ class GistErrorBoundaries extends Component {
     super(props);
     this.state = { hasError: false };
   }
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      nextProps.router.params?.username !== this.props.router.params?.username
+    );
+  }
 
   static getDerivedStateFromError(error) {
     return { hasError: true };
@@ -14,10 +19,9 @@ class GistErrorBoundaries extends Component {
     console.log("error");
   }
   render() {
-    const { children } = this.props;
+    const { children, router } = this.props;
     const { hasError } = this.state;
-
-    if (hasError) {
+    if (hasError && typeof router.params?.gist_id === "string") {
       return (
         <GridCenter>
           <GridTitle>404</GridTitle>
@@ -25,6 +29,14 @@ class GistErrorBoundaries extends Component {
         </GridCenter>
       );
     }
+    // else if (hasError && typeof router.params?.username === "string") {
+    //   return (
+    //     <GridCenter>
+    //       <GridTitle>404</GridTitle>
+    //       <GridTitle>Ooops! User Not Found</GridTitle>
+    //     </GridCenter>
+    //   );
+    // }
     return children;
   }
 }

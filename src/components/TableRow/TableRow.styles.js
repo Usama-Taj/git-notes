@@ -18,5 +18,7 @@ export const UserColumn = styled(TableCell)`
 export const ColumnControls = styled(TableCell)`
   color: #5acba1;
   font-size: 1rem;
-  cursor: pointer;
+  & i {
+    cursor: pointer;
+  }
 `;

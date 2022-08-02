@@ -15,10 +15,12 @@ import { withRouter } from "hoc/withRouter";
 import { getGistsByUser } from "api/gist.service";
 import { connect } from "react-redux";
 import { setLoggedInState } from "redux-state/gists/actions";
+import { fetchGistList } from "redux-state/gists";
 
 class Header extends Component {
   constructor(props) {
     super(props);
+    this.GITHUB_PROFILE = "https://github.com/Usama-Taj";
   }
 
   loginUser = (e) => {
@@ -30,7 +32,7 @@ class Header extends Component {
     const { loginUser } = this.props;
     localStorage.setItem("gist_app", JSON.stringify({ logged_in: false }));
     loginUser(false);
-    this.props.router.navigate("/");
+    this.props.router.navigate("/login");
   };
 
   handleSearchChange = (e) => {
@@ -41,9 +43,21 @@ class Header extends Component {
     if (e.code === "Enter") {
       const { router } = this.props;
       const { username } = this.state;
+      // if(router.location.pathname.split("/")[1] === "profile"){
 
-      router.navigate(`profile/${username}`);
+      // }
+      router.navigate(`/search/${username}`, { replace: true });
     }
+  };
+
+  displayYourGist = () => {
+    const { router } = this.props;
+    router.navigate(`/profile/${process.env.USERNAME}`);
+  };
+
+  displayStarredGists = () => {
+    const { router, getList } = this.props;
+    router.navigate("/starred", { replace: true });
   };
 
   render() {
@@ -71,7 +85,23 @@ class Header extends Component {
                 <MenuBar>
                   <UserImage src={avatar} alt="UserImage" />
                   <UserMenu className="content">
-                    <MenuItem onClick={this.logoutUser}>Log Out</MenuItem>
+                    <MenuItem>Signed in as</MenuItem>
+                    <MenuItem>Usama Taj</MenuItem>
+                    <MenuItem clickable onClick={this.displayYourGist}>
+                      Your Gists
+                    </MenuItem>
+                    <MenuItem clickable onClick={this.displayStarredGists}>
+                      Starred Gists
+                    </MenuItem>
+                    <hr />
+                    <MenuItem clickable>
+                      <a href={this.GITHUB_PROFILE} target="_blank">
+                        Your Github profile
+                      </a>
+                    </MenuItem>
+                    <MenuItem clickable onClick={this.logoutUser}>
+                      Log Out
+                    </MenuItem>
                   </UserMenu>
                 </MenuBar>
               )}
@@ -91,5 +121,6 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = {
   loginUser: setLoggedInState,
+  getList: fetchGistList,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Header));

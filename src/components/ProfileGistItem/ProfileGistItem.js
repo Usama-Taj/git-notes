@@ -13,22 +13,41 @@ import {
   CardContent,
   Table,
 } from "./ProfileGistItem.styles";
-import { getTimeFromDate } from "utilities/utilityFunctions";
-import { getGistFile } from "api/gist.service";
+import { getTimeCreated } from "utilities/utilityFunctions";
+import {
+  checkGistStar,
+  getGist,
+  getGistFile,
+  starOneGist,
+  unStarOneGist,
+} from "api/gist.service";
 class ProfileGistItem extends Component {
   constructor(props) {
     super(props);
-    this.state = { fileContent: [] };
+    this.state = { fileContent: [], starred: false, forked: false };
   }
   componentDidMount() {
-    const { files } = this.props.gist;
+    const { files, id } = this.props.gist;
+    checkGistStar(id).then((response) => this.setState({ starred: response }));
+    getGist(id).then((response) => {
+      const { files } = response;
 
-    getGistFile(files[Object.keys(files)[0]].raw_url).then((response) =>
-      this.setState({ fileContent: response.split("\n") })
-    );
+      this.setState({
+        fileContent: files[Object.keys(files)[0]].content.split("\n"),
+      });
+    });
   }
+  starGist = () => {
+    const { id } = this.props.gist;
+    const { starred } = this.state;
+    if (starred) {
+      unStarOneGist(id).then((res) => this.setState({ starred: false }));
+    } else {
+      starOneGist(id).then((res) => this.setState({ starred: true }));
+    }
+    this.setState({ starred: !this.state.starred });
+  };
   renderFileContent = (fileContent) => {
-    console.log("Content", fileContent);
     return fileContent.map((line, i) => (
       <tr key={i}>
         <td>{i + 1}</td>
@@ -45,7 +64,7 @@ class ProfileGistItem extends Component {
       description,
     } = this.props.gist;
     const logged_in = JSON.parse(localStorage.getItem("gist_app")).logged_in;
-    const { fileContent } = this.state;
+    const { fileContent, starred, forked } = this.state;
     return (
       <GistItem>
         <GistHeader>
@@ -59,13 +78,16 @@ class ProfileGistItem extends Component {
                 </span>
               </GistInfo>
               <GistHistory>
-                Created {getTimeFromDate(created_at)} Ago
+                Created {getTimeCreated(created_at)} Ago
               </GistHistory>
             </div>
             {logged_in && (
               <GistControls>
                 <div>
-                  <i className="fa-regular fa-star"></i>
+                  <i
+                    onClick={this.starGist}
+                    className={`fa-${starred ? "solid" : "regular"} fa-star`}
+                  ></i>
                   <GistControlLabel>Star</GistControlLabel>
                 </div>
                 <div>

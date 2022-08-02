@@ -9,32 +9,65 @@ import { getPublicGists } from "api/gist.service";
 import { GET_GIST_LIST } from "redux-state/actionTypes";
 import { fetchGistList } from "redux-state/gists";
 import { Route } from "react-router-dom";
+import { withRouter } from "hoc/withRouter";
+import { withAuth } from "hoc/withAuth";
+import Message from "components/Message/Message";
 
 class GistList extends Component {
   constructor(props) {
     super(props);
-    this.state = { grid_view: false, gists: [] };
+    const { params, location } = this.props.router;
+    this.state = {
+      grid_view: false,
+      gists: [],
+      profile_view: !!params?.username,
+      starred: location.pathname.split("/")[1] === "starred",
+    };
     this.STARTING_PAGE = 1;
   }
   setGridViewType = (grid_view) => {
     this.setState({ grid_view });
   };
-  componentDidMount() {
-    const { getList, gists_list } = this.props;
-    getList(this.STARTING_PAGE);
+  componentDidUpdate(prevProps, prevState) {
+    const {
+      router: { params: currParams },
+      getList,
+    } = this.props;
+    const { profile_view } = this.state;
+    const { params: prevParams } = prevProps.router;
+    console.log(currParams.username, prevParams.username);
+    if (currParams.username !== prevParams.username) {
+      if (profile_view) {
+        getList(this.STARTING_PAGE, currParams.username);
+      }
+    }
   }
-  renderGists = () => {
-    const { gists_list } = this.props;
-    const { grid_view } = this.state;
-    if (gists_list?.length > 0) {
+  componentDidMount() {
+    const {
+      getList,
+      router: { params },
+    } = this.props;
+    const { profile_view, starred } = this.state;
+    if (profile_view) {
+      getList(this.STARTING_PAGE, params.username);
+    } else if (starred) {
+      getList(this.STARTING_PAGE, "", starred);
+    } else {
+      getList(this.STARTING_PAGE);
+    }
+  }
+  renderGists = (gists_list, grid_view) => {
+    if (gists_list.length > 0) {
       if (grid_view) {
         return <GridView gists={gists_list} />;
       } else {
         return <TableView gists={gists_list} />;
       }
-    }
+    } else return <Message title="Sorry!" message="Gists not Available" />;
   };
   render() {
+    const { gists_list } = this.props;
+    const { grid_view, profile_view, starred } = this.state;
     return (
       <>
         <StyledGistList>
@@ -42,9 +75,10 @@ class GistList extends Component {
             setGridViewType={this.setGridViewType}
             grid_view={this.state.grid_view}
           />
-          {this.renderGists()}
+          {this.renderGists(gists_list, grid_view)}
           {/** Grid Or Table Content Here */}
-          <GistListFooter />
+          {!profile_view && gists_list.length === 10 && <GistListFooter />}
+          {/* {gists_list.length > 10 && <GistListFooter />} */}
         </StyledGistList>
       </>
     );
@@ -59,4 +93,7 @@ const mapStateToProps = (state) => {
   } = state;
   return { gists_list };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(GistList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(withAuth(GistList)));

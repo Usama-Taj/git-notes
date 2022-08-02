@@ -26,6 +26,7 @@ export const GistHistory = styled.div`
 
 export const GistHeaderControls = styled.div`
   display: grid;
+  justify-content: end;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   column-gap: 20px;
   & div {

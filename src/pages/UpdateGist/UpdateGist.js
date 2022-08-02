@@ -1,18 +1,38 @@
-import { createAGist } from "api/gist.service";
+import { createAGist, getGist, updateAGist } from "api/gist.service";
 import FileInput from "components/FileInput/FileInput";
 import { withAuth } from "hoc/withAuth";
 import { withRouter } from "hoc/withRouter";
 import React, { Component } from "react";
-import { AddGistForm } from "./AddGist.styles";
-class AddGist extends Component {
+import { UpdateGistForm } from "./UpdateGist.styles";
+class UpdateGist extends Component {
   constructor(props) {
     super(props);
     this.state = {
       gist_descirption: "",
       file_counter: 1,
       submit: false,
-      input_files: [{ file_id: 1 }],
+      input_files: [],
     };
+  }
+  componentDidMount() {
+    const {
+      router: { params },
+    } = this.props;
+
+    getGist(params?.gist_id).then((response) => {
+      const { files, description } = response;
+      const input_files = [];
+      let file_id = 0;
+      for (const [filename, file] of Object.entries(files)) {
+        ++file_id;
+        input_files.push({ file_id, filename, file_content: file.content });
+      }
+      this.setState({
+        gist_descirption: description,
+        file_counter: Object.keys(files).length,
+        input_files,
+      });
+    });
   }
   handleSubmitClick = (e) => {
     this.setState({ submit: true });
@@ -20,15 +40,18 @@ class AddGist extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { gist_descirption: description, input_files } = this.state;
-    const { router } = this.props;
+    const {
+      params: { gist_id },
+      navigate,
+    } = this.props.router;
     let files = {};
 
     input_files.forEach((fileItem) => {
       const { filename, file_content: content } = fileItem;
       files = { ...files, [filename]: { content } };
     });
-    const data_obj = { description, files };
-    createAGist(data_obj).then((response) => console.log(response));
+    const data_obj = { description, files, gist_id };
+    updateAGist(data_obj).then((response) => console.log(response));
 
     this.setState({
       gist_descirption: "",
@@ -36,7 +59,7 @@ class AddGist extends Component {
       input_files: [{ file_id: 1 }],
       submit: false,
     });
-    router.navigate("/");
+    navigate("/");
   };
 
   handleDescChange = (e) => {
@@ -80,13 +103,15 @@ class AddGist extends Component {
   };
 
   renderFileInputFields = (input_files) => {
-    return input_files.map(({ file_id }, i) => (
+    return input_files.map(({ file_id, filename, file_content }, i) => (
       <FileInput
         key={file_id}
         file_id={file_id}
         getAllFiles={this.getAllFiles}
         removeFile={this.removeFile}
         submit={this.state.submit}
+        filename={filename}
+        file_content={file_content}
       />
     ));
   };
@@ -95,7 +120,7 @@ class AddGist extends Component {
     const { gist_descirption, file_counter, input_files } = this.state;
 
     return (
-      <AddGistForm onSubmit={this.handleSubmit}>
+      <UpdateGistForm onSubmit={this.handleSubmit}>
         <input
           type="text"
           name="desc"
@@ -110,12 +135,12 @@ class AddGist extends Component {
         </button>
         <input
           type="submit"
-          value="Create Gist"
+          value="Update Gist"
           onClick={this.handleSubmitClick}
         />
-      </AddGistForm>
+      </UpdateGistForm>
     );
   }
 }
 
-export default withRouter(withAuth(AddGist));
+export default withRouter(withAuth(UpdateGist));

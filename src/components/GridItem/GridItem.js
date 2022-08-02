@@ -12,7 +12,7 @@ import GridFileView from "components/GridFileView/GridFileView";
 import { withRouter } from "hoc/withRouter";
 import { setSelectedGist } from "redux-state/gists/actions";
 import { getTimeCreated } from "utilities/utilityFunctions";
-import { getGistFile } from "api/gist.service";
+import { getGist, getGistFile } from "api/gist.service";
 
 class GridItem extends Component {
   constructor(props) {
@@ -28,10 +28,13 @@ class GridItem extends Component {
   };
 
   componentDidMount() {
-    const { files } = this.props.gist;
-    getGistFile(files[Object.keys(files)[0]].raw_url).then((res) =>
-      this.setState({ fileContent: res.split("\n") })
-    );
+    const { files, id } = this.props.gist;
+    getGist(id).then((response) => {
+      const { files } = response;
+      this.setState({
+        fileContent: files[Object.keys(files)[0]].content.split("\n"),
+      });
+    });
   }
   render() {
     const {
@@ -51,7 +54,7 @@ class GridItem extends Component {
     return (
       <Card
         onClick={(e) => {
-          router.navigate(`gist-view/${id}`);
+          router.navigate(`/gist-view/${id}`, { replace: true });
         }}
       >
         <CardContent>{<GridFileView fileContent={fileContent} />}</CardContent>
@@ -65,12 +68,13 @@ class GridItem extends Component {
           <div>
             <div>
               <CardInfo>
-                <span>{username}</span> /{" "}
+                <span>{username}</span> /
                 <span>
                   <b>{this.getValidData(Object.keys(files)[0])}</b>
                 </span>
               </CardInfo>
               <History>Created {getTimeCreated(created_at)} Ago</History>
+              <History> {this.getValidData(description)}</History>
             </div>
           </div>
         </CardFooter>

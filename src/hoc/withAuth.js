@@ -5,13 +5,13 @@ import { useSelector } from "react-redux";
 
 export function withAuth(Component) {
   return function ComponentWithReduxState(props) {
-    const { gists, selected_gists } = useSelector((data) => data);
+    const PUBLIC_PATHS = ["", "gist-view", "search", "login"];
     const logged_in =
       JSON.parse(localStorage.getItem("gist_app"))?.logged_in || false;
     const {
       router: { location },
     } = props;
-    if (!logged_in && location.pathname !== "/login") {
+    if (!logged_in && !PUBLIC_PATHS.includes(location.pathname.split("/")[1])) {
       return <NotAuthorized />;
     } else if (logged_in && location.pathname === "/login") {
       return (

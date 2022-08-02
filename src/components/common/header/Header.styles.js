@@ -81,14 +81,19 @@ export const UserMenu = styled.ul`
   display: none;
 `;
 export const MenuItem = styled.li`
-  font-weight: bold;
+  font-weight: ${({ clickable }) => (clickable ? "bold" : "light")};
   white-space: nowrap;
   list-style-type: none;
   padding: 5px 10px;
   font-size: 0.8rem;
-  cursor: pointer;
+  cursor: ${({ clickable }) => (clickable ? "pointer" : "auto")};
   color: #000;
+  & a {
+    text-decoration: none;
+    color: #000;
+  }
   &:hover {
-    background-color: rgb(107, 102, 102, 0.5);
+    background-color: ${({ clickable }) =>
+      clickable ? "rgb(107, 102, 102, 0.5)" : "none"};
   }
 `;

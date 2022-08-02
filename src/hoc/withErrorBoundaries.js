@@ -4,7 +4,7 @@ import React from "react";
 const withErrorBoundaries = (Component) => {
   return function ComponentWithErrors(props) {
     return (
-      <GistErrorBoundaries>
+      <GistErrorBoundaries {...props}>
         <Component {...props} />
       </GistErrorBoundaries>
     );

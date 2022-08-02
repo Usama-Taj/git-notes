@@ -37,7 +37,7 @@ class GistView extends Component {
           <GistContent
             key={i}
             fileContent={files[file].content.split("\n")}
-            filename={Object.keys(files)}
+            filename={Object.keys(files)[i]}
           />
         );
       });
@@ -49,7 +49,6 @@ class GistView extends Component {
       ?.gist
       ? this.state.gist
       : this.mockGist;
-    console.log(this.state.gist);
     return (
       <Gist>
         {this.state.gist && (

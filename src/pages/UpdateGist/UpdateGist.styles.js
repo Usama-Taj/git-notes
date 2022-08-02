@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const AddGistForm = styled.form`
+export const UpdateGistForm = styled.form`
   display: grid;
   margin-left: auto;
   margin-right: auto;
