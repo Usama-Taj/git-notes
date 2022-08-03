@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Header from "components/common/header/Header";
+import Header from "components/common/header/HeaderContent";
 import Main from "components/common/main/Main";
 import AddGist from "pages/AddGist/AddGist";
 import GistList from "pages/GistList/GistList";

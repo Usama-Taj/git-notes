@@ -28,6 +28,7 @@ class GistList extends Component {
   setGridViewType = (grid_view) => {
     this.setState({ grid_view });
   };
+
   componentDidUpdate(prevProps, prevState) {
     const {
       router: { params: currParams },

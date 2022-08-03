@@ -1,18 +1,20 @@
-import Header from "components/common/header/Header";
-import Main from "components/common/main/Main";
-import React, { Component } from "react";
+import React from "react";
+import { Layout } from "antd";
+import HeaderContent from "components/common/header/HeaderContent";
 import { BrowserRouter as Router } from "react-router-dom";
+import { Content } from "components/GridView/GridView.styles";
 
-class MainLayout extends Component {
-  render() {
-    const { children } = this.props;
-    return (
-      <Router>
-        <Header />
-        <Main>{children}</Main>
-      </Router>
-    );
-  }
-}
+const { Header, Contnent } = Layout;
+
+const MainLayout = ({ children }) => {
+  return (
+    <Router>
+      <Header>
+        <HeaderContent />
+      </Header>
+      <Content>{children}</Content>
+    </Router>
+  );
+};
 
 export default MainLayout;
