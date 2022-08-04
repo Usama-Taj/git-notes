@@ -46,7 +46,7 @@ class Header extends Component {
       // if(router.location.pathname.split("/")[1] === "profile"){
 
       // }
-      router.navigate(`/search/${username}`, { replace: true });
+      router.navigate(`/search/${username}`);
     }
   };
 
@@ -57,7 +57,7 @@ class Header extends Component {
 
   displayStarredGists = () => {
     const { router, getList } = this.props;
-    router.navigate("/starred", { replace: true });
+    router.navigate("/starred");
   };
 
   handleAddGist = () => {

@@ -1,17 +1,13 @@
 import React from "react";
-import { Layout } from "antd";
-import HeaderContent from "components/common/header/HeaderContent";
+import Header from "components/common/header/Header";
 import { BrowserRouter as Router } from "react-router-dom";
-
-const { Header, Content } = Layout;
+import Main from "components/common/main/Main";
 
 const MainLayout = ({ children }) => {
   return (
     <Router>
-      <Header>
-        <HeaderContent />
-      </Header>
-      <Content>{children}</Content>
+      <Header />
+      <Main>{children}</Main>
     </Router>
   );
 };
