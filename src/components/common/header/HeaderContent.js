@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { SearchOutlined } from "@ant-design/icons";
 import logo from "assets/logos/logo.svg";
 import avatar from "assets/images/img_avatar.png";
 import {
@@ -10,12 +11,14 @@ import {
   UserMenu,
   MenuItem,
   MenuBar,
+  SearchInput,
 } from "./HeaderContent.styles";
 import { withRouter } from "hoc/withRouter";
 import { getGistsByUser } from "api/gist.service";
 import { connect } from "react-redux";
 import { setLoggedInState } from "redux-state/gists/actions";
 import { fetchGistList } from "redux-state/gists";
+import { Input } from "antd";
 
 const Header = ({ logged_in, loginUser, router }) => {
   // Data Variable
@@ -50,6 +53,10 @@ const Header = ({ logged_in, loginUser, router }) => {
     router.navigate(`/profile/${process.env.USERNAME}`);
   };
 
+  const handleAddGist = () => {
+    router.navigate(`/add-gist`);
+  };
+
   const displayStarredGists = () => {
     router.navigate("/starred", { replace: true });
   };
@@ -62,10 +69,9 @@ const Header = ({ logged_in, loginUser, router }) => {
             <NavBarLogo src={logo} alt="Emumba Logo" />
           </a>
           <NavBarControls>
-            <input
-              type="text"
-              name="search"
-              id="search"
+            <SearchInput
+              size="large"
+              suffix={<SearchOutlined />}
               placeholder="Search Name..."
               onChange={handleSearchChange}
               onKeyUp={handleEnter}
@@ -81,6 +87,9 @@ const Header = ({ logged_in, loginUser, router }) => {
                   <MenuItem>Usama Taj</MenuItem>
                   <MenuItem clickable onClick={displayYourGist}>
                     Your Gists
+                  </MenuItem>
+                  <MenuItem clickable onClick={handleAddGist}>
+                    Add Gists
                   </MenuItem>
                   <MenuItem clickable onClick={displayStarredGists}>
                     Starred Gists

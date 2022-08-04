@@ -239,7 +239,7 @@ const createAGist = (data) => {
       Authorization: AUTH_HEADER,
       Accept: process.env.API_ACCEPT,
     },
-    body: JSON.stringify({ ...data, public: true }),
+    body: JSON.stringify(data),
   })
     .then(handleJSONError)
     .then(getResponse)

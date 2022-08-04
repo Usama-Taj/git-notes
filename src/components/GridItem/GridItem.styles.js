@@ -4,7 +4,7 @@ export const Card = styled.div`
   display: grid;
   grid-template-rows: 5fr 0.1fr 1fr;
   border-radius: 10px;
-  padding: 10px;
+  padding: 5px;
   border: 1px solid rgb(107, 102, 102, 0.5);
   border-radius: 15px;
   box-shadow: -0px 0px 8px #d9d9d9, 0px -0px 8px #e7e7e7;

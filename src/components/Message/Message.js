@@ -6,8 +6,8 @@ class Message extends Component {
     const { title, message } = this.props;
     return (
       <GridCenter>
-        <GridTitle remSize="4">{title}</GridTitle>
-        <GridTitle remSize="2">{message}</GridTitle>
+        {title && <GridTitle remSize="4">{title}</GridTitle>}
+        {message && <GridTitle remSize="2">{message}</GridTitle>}
       </GridCenter>
     );
   }

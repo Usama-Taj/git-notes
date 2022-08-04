@@ -1,12 +1,18 @@
 import styled from "styled-components";
 
+export const Label = styled.label`
+  font-size: 0.9rem;
+  margin: 0 10px 0 0;
+`;
+
 export const AddGistForm = styled.form`
   display: grid;
   margin-left: auto;
   margin-right: auto;
   row-gap: 15px;
   width: 70%;
-  & * {
+  & input,
+  button {
     border-radius: 5px;
     border: none;
     outline: 1px solid rgba(128, 128, 128, 0.5);
@@ -16,7 +22,13 @@ export const AddGistForm = styled.form`
     padding-right: 10px;
     height: 1.5rem;
   }
-  & textarea {
+  & input[type="checkbox"] {
+    border-radius: auto;
+    border: none;
+    outline: none;
+    margin-right: auto;
+  }
+  & te & textarea {
     padding-left: 10px;
     padding-right: 10px;
   }

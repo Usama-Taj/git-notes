@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import { Input } from "antd";
 export const HeaderArea = styled.header`
   position: fixed;
   z-index: 10;
@@ -16,32 +16,21 @@ export const NavBar = styled.nav`
 export const NavBarLogo = styled.img`
   width: 70%;
 `;
-
+export const SearchInput = styled(Input)`
+  color: #fff;
+  border: 1px solid #fff;
+  height: 40%;
+  width: 70%;
+  background-color: #5acba1;
+  padding: 0 10px 0 10px;
+  border-radius: 5px;
+`;
 export const NavBarControls = styled.div`
   width: 30%;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
   align-items: center;
-  & * {
-    border-radius: 5px;
-    color: #fff;
-  }
-  & input[type="text"] {
-    border: 1px solid #fff;
-    height: 40%;
-    width: 70%;
-    background-color: #5acba1;
-    padding: 0 10px 0 10px;
-  }
-
-  & input[type="text"]::placeholder {
-    color: #fff;
-  }
-  & input[type="text"]:focus {
-    outline: none;
-    border: 2px solid #fff;
-  }
 
   & button {
     background-color: #fff;
