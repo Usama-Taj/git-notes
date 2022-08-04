@@ -6,6 +6,10 @@ import { withAuth } from "hoc/withAuth";
 import { getGistsByUser } from "api/gist.service";
 import { withRouter } from "hoc/withRouter";
 import withErrorBoundaries from "hoc/withErrorBoundaries";
+import { connect } from "react-redux";
+import { fetchProfileGists } from "redux-state/gists";
+import Spinner from "components/common/spinners/Spinner";
+import Message from "components/Message/Message";
 
 class Profile extends Component {
   constructor(props) {
@@ -13,46 +17,42 @@ class Profile extends Component {
     this.state = { gists: [] };
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const {
-      router: {
-        params: { username: prevUsername },
-      },
-    } = this.props;
-    const {
-      router: {
-        params: { username: currUsername },
-      },
-    } = this.props;
-    if (currUsername !== prevUsername)
-      getGistsByUser(username).then((response) =>
-        this.setState({ gists: response })
-      );
-  }
-
   componentDidMount() {
     const {
       router: {
         params: { username },
       },
+      getProfileGists,
     } = this.props;
-    getGistsByUser(username).then((response) =>
-      this.setState({ gists: response })
-    );
+    getProfileGists(username);
   }
+
   render() {
-    const { gists } = this.state;
-    return (
+    const { profile_gists, profile_gists_loading } = this.props;
+    return profile_gists_loading ? (
+      <Spinner size={15} />
+    ) : profile_gists.length !== 0 ? (
       <ProfileView>
-        {gists.length !== 0 && (
-          <>
-            <ProfileContent profile={gists[0]?.owner} />
-            <ProfileGists gists={gists} />
-          </>
-        )}
+        <>
+          <ProfileContent profile={profile_gists[0]?.owner} />
+          <ProfileGists gists={profile_gists} />
+        </>
       </ProfileView>
+    ) : (
+      <Message title="Oops!" message="Gists Not Found" />
     );
   }
 }
 
-export default withRouter(withAuth(Profile));
+const mapStateToProps = (state) => {
+  const { profile_gists, profile_gists_loading } = state.gists;
+  return { profile_gists, profile_gists_loading };
+};
+const mapDispatchToProps = {
+  getProfileGists: fetchProfileGists,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(withAuth(Profile)));

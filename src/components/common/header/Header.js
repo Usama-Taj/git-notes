@@ -60,6 +60,11 @@ class Header extends Component {
     router.navigate("/starred", { replace: true });
   };
 
+  handleAddGist = () => {
+    const { router } = this.props;
+    router.navigate("/add-gist");
+  };
+
   render() {
     const { logged_in } = this.props;
     return (
@@ -92,6 +97,9 @@ class Header extends Component {
                     </MenuItem>
                     <MenuItem clickable onClick={this.displayStarredGists}>
                       Starred Gists
+                    </MenuItem>
+                    <MenuItem clickable onClick={this.handleAddGist}>
+                      Add Gist
                     </MenuItem>
                     <hr />
                     <MenuItem clickable>

@@ -3,18 +3,47 @@ import {
   getPublicGists,
   getPublicStarredGists,
 } from "api/gist.service";
-import { getGistList, setPageNumber } from "./actions";
+
+import {
+  getGistList,
+  getProfileGists,
+  setPageNumber,
+  startGistLoading,
+  startProfileGistLoading,
+  stopGistLoading,
+  stopProfileGistLoading,
+} from "./actions";
+
+export const fetchProfileGists = (username) => (dispatch) => {
+  dispatch(startProfileGistLoading());
+  getGistsByUser(username).then((response) => {
+    dispatch(getProfileGists(response));
+    dispatch(stopProfileGistLoading());
+  });
+};
 
 export const fetchGistList =
   (page, profile = "", starred = false) =>
   (dispatch) => {
     if (profile) {
-      getGistsByUser(profile).then((res) => dispatch(getGistList(res)));
+      dispatch(startGistLoading());
+      getGistsByUser(profile).then((res) => {
+        dispatch(getGistList(res));
+        dispatch(stopGistLoading());
+      });
     } else if (starred) {
       dispatch(setPageNumber(page));
-      getPublicStarredGists(page).then((res) => dispatch(getGistList(res)));
+      dispatch(startGistLoading());
+      getPublicStarredGists(page).then((res) => {
+        dispatch(getGistList(res));
+        dispatch(stopGistLoading());
+      });
     } else {
       dispatch(setPageNumber(page));
-      getPublicGists(page).then((res) => dispatch(getGistList(res)));
+      dispatch(startGistLoading());
+      getPublicGists(page).then((res) => {
+        dispatch(getGistList(res));
+        dispatch(stopGistLoading());
+      });
     }
   };
