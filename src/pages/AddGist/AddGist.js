@@ -14,10 +14,11 @@ class AddGist extends Component {
       submit: false,
       type_public: false,
       input_files: [{ file_id: 1 }],
+      checked: true,
+      public_gist: true,
     };
   }
-
-  handleSubmitClick = (e) => {
+  submitClick = (e) => {
     this.setState({ submit: true });
   };
 
@@ -26,7 +27,7 @@ class AddGist extends Component {
     const {
       gist_descirption: description,
       input_files,
-      type_public,
+      public_gist,
     } = this.state;
     const { router } = this.props;
     let files = {};
@@ -35,13 +36,25 @@ class AddGist extends Component {
       const { filename, file_content: content } = fileItem;
       files = { ...files, [filename]: { content } };
     });
-    const data_obj = { description, files, public: type_public };
+    const data_obj = { description, files, public: public_gist };
     createAGist(data_obj).then((response) => console.log(response));
-    // router.navigate("/");
+
+    this.setState({
+      gist_descirption: "",
+      file_counter: 1,
+      input_files: [{ file_id: 1 }],
+      submit: false,
+    });
+
+    router.navigate("/");
   };
 
   handleDescChange = (e) => {
     this.setState({ gist_descirption: e.target.value });
+  };
+
+  handleCheck = (e) => {
+    this.setState({ public_gist: e.target.checked });
   };
 
   handleAddFileInput = (e) => {
@@ -104,40 +117,35 @@ class AddGist extends Component {
   };
 
   render() {
-    const { gist_descirption, file_counter, input_files } = this.state;
+    const { gist_descirption, file_counter, input_files, public_gist } =
+      this.state;
 
     return (
-      <>
-        <AddGistForm onSubmit={this.handleSubmit}>
+      <AddGistForm onSubmit={this.handleSubmit}>
+        <input
+          type="text"
+          name="desc"
+          id="desc"
+          placeholder="Enter Gist Description..."
+          value={gist_descirption}
+          onChange={this.handleDescChange}
+        />
+        <div>
+          <Label>Public Gist:</Label>
           <input
-            type="text"
-            name="desc"
-            id="desc"
-            placeholder="Enter Gist Description..."
-            value={gist_descirption}
-            onChange={this.handleDescChange}
+            type="checkbox"
+            name="gist_type"
+            id="gist_type"
+            onChange={this.handleCheck}
+            checked={public_gist}
           />
-          <div>
-            <Label>Public</Label>
-            <input
-              type="checkbox"
-              name="gist_type"
-              id="gist_type"
-              onClick={this.handleGistType}
-            />
-          </div>
-
-          {this.renderFileInputFields(input_files)}
-          <button type="button" onClick={this.handleAddFileInput}>
-            Add File
-          </button>
-          <input
-            type="submit"
-            value="Create Gist"
-            onClick={this.handleSubmitClick}
-          />
-        </AddGistForm>
-      </>
+        </div>
+        {this.renderFileInputFields(input_files)}
+        <button type="button" onClick={this.handleAddFileInput}>
+          Add File
+        </button>
+        <input type="submit" value="Create Gist" onClick={this.submitClick} />
+      </AddGistForm>
     );
   }
 }

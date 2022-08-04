@@ -13,11 +13,13 @@ import { withRouter } from "hoc/withRouter";
 import { setSelectedGist } from "redux-state/gists/actions";
 import { getTimeCreated } from "utilities/utilityFunctions";
 import { getGist, getGistFile } from "api/gist.service";
+import Spinner from "components/common/spinners/Spinner";
+import CircleSpinner from "components/common/spinners/CircleSpinner";
 
 class GridItem extends Component {
   constructor(props) {
     super(props);
-    this.state = { fileContent: [] };
+    this.state = { fileContent: [], loading: true };
   }
   getValidData = (data) => {
     const extention = data?.match(/\.\w*$/) ?? "";
@@ -33,6 +35,7 @@ class GridItem extends Component {
       const { files } = response;
       this.setState({
         fileContent: files[Object.keys(files)[0]].content.split("\n"),
+        loading: false,
       });
     });
   }
@@ -50,14 +53,17 @@ class GridItem extends Component {
       router,
       selectGist,
     } = this.props;
-    const { fileContent } = this.state;
+    const { fileContent, loading } = this.state;
     return (
       <Card
         onClick={(e) => {
           router.navigate(`/gist-view/${id}`, { replace: true });
         }}
       >
-        <CardContent>{<GridFileView fileContent={fileContent} />}</CardContent>
+        <CardContent>
+          <GridFileView fileContent={fileContent} />
+        </CardContent>
+
         <div>
           <hr />
         </div>

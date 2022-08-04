@@ -11,7 +11,7 @@ export const GistHeader = styled.div`
 export const GistPorfileImageArea = styled.div`
   align-items: center;
   display: grid;
-  grid-template-columns: 1fr 10fr 5fr;
+  grid-template-columns: 1fr 6fr 4fr;
 `;
 
 export const GistProfileImage = styled.img`
@@ -31,7 +31,7 @@ export const GistHistory = styled.div`
 
 export const GistControls = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
   column-gap: 5px;
   & input[type="text"] {
     width: 40px;

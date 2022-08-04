@@ -12,6 +12,7 @@ import { Route } from "react-router-dom";
 import { withRouter } from "hoc/withRouter";
 import { withAuth } from "hoc/withAuth";
 import Message from "components/Message/Message";
+import Spinner from "components/common/spinners/Spinner";
 
 class GistList extends Component {
   constructor(props) {
@@ -67,8 +68,8 @@ class GistList extends Component {
     } else return <Message title="Sorry!" message="Gists not Available" />;
   };
   render() {
-    const { gists_list } = this.props;
-    const { grid_view, profile_view, starred } = this.state;
+    const { gists_list, gist_loading } = this.props;
+    const { grid_view, profile_view } = this.state;
     return (
       <>
         <StyledGistList>
@@ -76,10 +77,13 @@ class GistList extends Component {
             setGridViewType={this.setGridViewType}
             grid_view={this.state.grid_view}
           />
-          {this.renderGists(gists_list, grid_view)}
-          {/** Grid Or Table Content Here */}
+          {gist_loading ? (
+            <Spinner size={15} />
+          ) : (
+            this.renderGists(gists_list, grid_view)
+          )}
           {!profile_view && gists_list.length === 10 && <GistListFooter />}
-          {/* {gists_list.length > 10 && <GistListFooter />} */}
+          {gists_list.length > 10 && <GistListFooter />}
         </StyledGistList>
       </>
     );
@@ -90,9 +94,9 @@ const mapDispatchToProps = {
 };
 const mapStateToProps = (state) => {
   const {
-    gists: { gists_list },
+    gists: { gists_list, gist_loading },
   } = state;
-  return { gists_list };
+  return { gists_list, gist_loading };
 };
 export default connect(
   mapStateToProps,

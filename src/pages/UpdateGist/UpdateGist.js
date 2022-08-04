@@ -96,24 +96,31 @@ class UpdateGist extends Component {
     this.setState(
       ({ input_files, file_counter }, props) =>
         file_counter > 1 && {
-          input_files: input_files.filter((file) => file.file_id !== file_id),
+          input_files: input_files.map((file) => {
+            if (file.file_id === file_id) {
+              return { ...file, removed: true, file_content: "" };
+            }
+            return file;
+          }),
           file_counter: file_counter - 1,
         }
     );
   };
 
   renderFileInputFields = (input_files) => {
-    return input_files.map(({ file_id, filename, file_content }, i) => (
-      <FileInput
-        key={file_id}
-        file_id={file_id}
-        getAllFiles={this.getAllFiles}
-        removeFile={this.removeFile}
-        submit={this.state.submit}
-        filename={filename}
-        file_content={file_content}
-      />
-    ));
+    return input_files
+      .filter((file) => !file?.removed)
+      .map(({ file_id, filename, file_content }, i) => (
+        <FileInput
+          key={file_id}
+          file_id={file_id}
+          getAllFiles={this.getAllFiles}
+          removeFile={this.removeFile}
+          submit={this.state.submit}
+          filename={filename}
+          file_content={file_content}
+        />
+      ));
   };
 
   render() {

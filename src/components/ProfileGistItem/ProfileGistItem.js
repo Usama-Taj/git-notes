@@ -16,11 +16,15 @@ import {
 import { getTimeCreated } from "utilities/utilityFunctions";
 import {
   checkGistStar,
+  deleteAGist,
   getGist,
   getGistFile,
   starOneGist,
   unStarOneGist,
 } from "api/gist.service";
+import { withRouter } from "hoc/withRouter";
+import { fetchProfileGists } from "redux-state/gists";
+import { connect } from "react-redux";
 class ProfileGistItem extends Component {
   constructor(props) {
     super(props);
@@ -37,6 +41,33 @@ class ProfileGistItem extends Component {
       });
     });
   }
+  deleteGist = () => {
+    const {
+      gist: {
+        id,
+        owner: { login: username, avatar_url: avatar },
+      },
+      router,
+      getProfileGists,
+    } = this.props;
+    if (id) {
+      deleteAGist(id).then((res) => {
+        if (res) {
+          console.log("Deleted");
+          getProfileGists(username);
+        }
+      });
+    }
+  };
+  editGist = () => {
+    const {
+      gist: { id },
+      router,
+    } = this.props;
+    if (id) {
+      router.navigate(`/update/${id}`);
+    }
+  };
   starGist = () => {
     const { id } = this.props.gist;
     const { starred } = this.state;
@@ -83,6 +114,18 @@ class ProfileGistItem extends Component {
             </div>
             {logged_in && (
               <GistControls>
+                {username === process.env.USERNAME && (
+                  <>
+                    <div onClick={this.deleteGist}>
+                      <i className="fa-regular fa-trash-can"></i>
+                      <GistControlLabel>Delete</GistControlLabel>
+                    </div>
+                    <div onClick={this.editGist}>
+                      <i className="fa-regular fa-pen-to-square"></i>
+                      <GistControlLabel>Edit</GistControlLabel>
+                    </div>
+                  </>
+                )}
                 <div>
                   <i
                     onClick={this.starGist}
@@ -90,15 +133,10 @@ class ProfileGistItem extends Component {
                   ></i>
                   <GistControlLabel>Star</GistControlLabel>
                 </div>
-                <div>
-                  <input type="text" name="" id="" />
-                </div>
+
                 <div>
                   <i className="fa-solid fa-code-branch"></i>
                   <GistControlLabel>Fork</GistControlLabel>
-                </div>
-                <div>
-                  <input type="text" name="" id="" />
                 </div>
               </GistControls>
             )}
@@ -121,4 +159,8 @@ class ProfileGistItem extends Component {
   }
 }
 
-export default ProfileGistItem;
+const mapDispatchToProps = {
+  getProfileGists: fetchProfileGists,
+};
+
+export default connect(null, mapDispatchToProps)(withRouter(ProfileGistItem));
